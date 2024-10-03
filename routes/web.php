@@ -15,4 +15,3 @@ Route::middleware('auth')->group(function () {
     Route::post('/payments', [PaymentController::class, 'store'])->name('payments.store');
     Route::post('/logout', [AuthenticatedSessionController::class, 'logout'])->name('logout');
 });
-require __DIR__ . '/auth.php';
