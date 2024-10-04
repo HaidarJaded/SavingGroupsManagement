@@ -15,4 +15,13 @@ class Payment extends Model
         'payment_date',
     ];
     use HasFactory;
+    public function savingGroup()
+    {
+        return $this->belongsTo(SavingGroup::class);
+    }
+
+    public function subscriber()
+    {
+        return $this->belongsTo(Subscriber::class);
+    }
 }
