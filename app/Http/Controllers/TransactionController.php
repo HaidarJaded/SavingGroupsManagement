@@ -15,18 +15,17 @@ class TransactionController extends Controller
      */
     public function index()
     {
-        $transactions = Transaction::with(['savingGroup', 'subscriber'])->paginate(10);
+        $transactions = Transaction::with(['savingGroup', 'subscriber'])->orderBy('created_at', 'desc')->paginate(10);
         return view('transactions.index', compact('transactions'));
     }
 
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(int $saving_group_id)
     {
-        $savingGroups = SavingGroup::all();
-        $subscribers = Subscriber::all();
-        return view('transactions.create', compact('savingGroups', 'subscribers'));
+        $savingGroup = SavingGroup::with('subscribers')->findOrFail($saving_group_id);
+        return view('transactions.create', compact('savingGroup',));
     }
 
     /**
@@ -75,8 +74,9 @@ class TransactionController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Transaction $transaction)
+    public function destroy(int $transaction_id)
     {
+        $transaction=Transaction::findOrFail($transaction_id);
         $transaction->delete();
         return redirect()->route('transactions.index')->with('success', 'Transaction deleted successfully.');
     }
