@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="container">
-    <h1>Create New Saving Group</h1>
+    <h1 style="direction:rtl">إنشاء جمعية جديدة</h1>
 
     <form id="saving-group-form" action="{{ route('saving_groups.store') }}" method="POST">
         @csrf
@@ -89,7 +89,7 @@
             const lastName = document.getElementById('subscriber_last_name').value;
             const phone = document.getElementById('subscriber_phone').value;
 
-            if (!(firstName && lastName  )) {
+            if (!(firstName && lastName)) {
                 alert('الرجاء إدخال اسم وكنية المشترك.');
                 return;
             }
@@ -124,7 +124,7 @@
             const hiddenRankInput = document.createElement('input');
             hiddenPhoneInput.type = 'hidden';
             hiddenPhoneInput.name = `subscribers[${subscriberCount}][rank]`;
-            hiddenPhoneInput.value = subscriberCount+1;
+            hiddenPhoneInput.value = subscriberCount + 1;
             hiddenPhoneInput.classList.add(`subscriber-${subscriberCount}`);
             subscribersWrapper.appendChild(hiddenPhoneInput);
 

@@ -2,7 +2,9 @@
 
 @section('content')
 <div class="container" >
-    <h1>{{ $subscriber->name }}المدفوعات ل </h1>
+   <center>
+       <h1  style="direction:rtl"> المدفوعات ل {{ $subscriber->name }}</h1>
+   </center>
 
     <table class="table table-bordered text-center">
         <thead>
