@@ -22,7 +22,7 @@ class SavingGroupController extends Controller
      */
     public function index()
     {
-        $savingGroups = SavingGroup::with('subscribers')->get(); // Eager load subscribers
+        $savingGroups = SavingGroup::with('subscribers')->orderBy('created_at','desc')->get(); // Eager load subscribers
         return view('saving_groups.index', compact('savingGroups'));
     }
 
