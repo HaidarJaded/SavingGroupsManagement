@@ -13,7 +13,8 @@ class PaymentController extends Controller
      */
     public function index()
     {
-        //
+        $payments=Payment::with(['savingGroup', 'subscriber'])->orderBy('created_at','desc')->paginate(10);
+        return view('payments.index', compact('payments'));
     }
 
     /**
