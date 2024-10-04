@@ -8,7 +8,6 @@
             {{ session('success') }}
         </div>
     @endif
-    <a href="{{ route('transactions.create') }}" class="btn btn-primary">إضافة حوالة</a>
 
     <table class="table table-bordered">
         <thead>
@@ -38,7 +37,7 @@
                     <td>{{ $transaction->description }}</td>
                     <td>{{ \Carbon\Carbon::parse($transaction->payment_date)->format('Y-m-d H:i') }}</td>
                     <td>
-                        <form action="{{ route('transactions.destroy', $transaction->id) }}" method="POST"
+                        <form action="{{ route('transactions.destroy', $transaction->id ) }}" method="POST"
                             style="display:inline-block;">
                             @csrf
                             @method('DELETE')

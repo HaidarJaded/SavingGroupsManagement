@@ -8,13 +8,7 @@
         @csrf
 
         <div class="mb-3">
-            <label for="saving_group" class="form-label">الجمعية</label>
-            <select class="form-control" name="saving_group_id" required >
-                <option value="">اختيار الجمعية</option>
-                @foreach ($savingGroups as $group)
-                    <option value="{{ $group->id }}">{{ $group->name }}</option>
-                @endforeach
-            </select>
+            <input hidden type="text"  name="saving_group_id" value="{{$savingGroup->id}}">
             @error('saving_group_id')
                 <span class="text-danger">{{ $message }}</span>
             @enderror
@@ -24,7 +18,7 @@
             <label for="subscriber" class="form-label">المشترك</label>
             <select class="form-control" name="subscriber_id" required>
                 <option value="">اختيار المشترك</option>
-                @foreach ($subscribers as $subscriber)
+                @foreach ($savingGroup->subscribers as $subscriber)
                     <option value="{{ $subscriber->id }}">{{ $subscriber->full_name }}</option>
                 @endforeach
             </select>
@@ -44,7 +38,7 @@
 
         <div class="mb-3">
             <label for="amount" class="form-label">وصف (اختياري)</label>
-            <input type="text" step="0.01" class="form-control" name="description" >
+            <input type="text"  class="form-control" name="description" >
             @error('description')
                 <span class="text-danger">{{ $message }}</span>
             @enderror
