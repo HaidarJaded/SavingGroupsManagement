@@ -58,6 +58,7 @@
             <h3>Al Kamal Phone</h3>
             <a href="{{ route('saving_groups.index') }}">الجمعيات</a>
             <a href="{{ route('transactions.index') }}">الحوالات</a>
+            <a href="{{ route('payments.index') }}">المدفوعات</a>
             
             <!-- Logout Button -->
             <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
