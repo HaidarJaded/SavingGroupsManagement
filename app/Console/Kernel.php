@@ -12,7 +12,7 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        $schedule->command('increment:day-cycle')->runInBackground();
+        $schedule->command('increment:day-cycle')->daily();
     }
 
     /**
