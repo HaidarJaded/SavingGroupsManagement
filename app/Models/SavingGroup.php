@@ -30,8 +30,8 @@ class SavingGroup extends Model
             $total_amount=$savingGroup->days_per_cycle * $savingGroup->amount_per_day * $savingGroup->subscribers_count;
             $savingGroup->total_amount = $total_amount;
             // Make end date = created at + (days_per_cycle * subscribers_count) in Model's triggers
-            
-            $savingGroup->end_date = Carbon::parse($savingGroup->start_date)->addDays($savingGroup->days_per_cycle * $savingGroup->subscribers_count);
+
+            $savingGroup->end_date = Carbon::parse($savingGroup->start_date)->addDays($savingGroup->days_per_cycle * $savingGroup->subscribers_count - 1);
         });
     }
     public function subscribers(): HasMany
