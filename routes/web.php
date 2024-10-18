@@ -7,6 +7,10 @@ use App\Http\Controllers\TransactionController;
 
 Route::get('login', [AuthenticatedSessionController::class, 'showLoginPage'])->name('login');
 Route::post('login', [AuthenticatedSessionController::class, 'login']);
+Route::get('/subscriber/login', [SubscriberController::class, 'showLoginForm'])->name('subscriber.login');
+Route::post('/subscriber/login', [SubscriberController::class, 'login'])->name('subscriber.login.submit');
+Route::get('/subscriber/payments', [SubscriberController::class, 'showPaymentsByCode'])->name('subscriber.payments');
+
 Route::middleware('auth')->group(function () {
     Route::get('saving_group/payments/{saving_group_id}', [SavingGroupController::class, 'getSavingGroupPayments'])->name('saving_group_payments');
     Route::resource('saving_groups',SavingGroupController::class);

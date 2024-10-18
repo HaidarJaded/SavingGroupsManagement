@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\SubscriberLoginRequest;
 use App\Models\SavingGroup;
 use App\Models\Subscriber;
 use Illuminate\Http\Request;
@@ -86,5 +87,41 @@ class SubscriberController extends Controller
     public function destroy(Subscriber $subscriber)
     {
         //
+    }
+    
+    public function showLoginForm()
+    {
+        return view('subscribers.login');
+    }
+
+    public function login(SubscriberLoginRequest $request)
+    {
+        // Find the subscriber by code
+        $subscriber = Subscriber::where('code', $request->code)->first();
+
+        if ($subscriber) {
+            // Store subscriber ID in session
+            session(['subscriber_id' => $subscriber->id]);
+            return redirect()->route('subscriber.payments');
+        }
+
+        // Redirect back if the code is incorrect
+        return redirect()->back()->withErrors(['code' => 'Invalid code']);
+    }
+
+    public function showPaymentsByCode()
+    {
+        // Check if subscriber is logged in
+        $subscriberId = session('subscriber_id');
+        if (!$subscriberId) {
+            return redirect()->route('subscriber.login');
+        }
+
+        // Get subscriber's payments
+        $subscriber = Subscriber::find($subscriberId);
+        // $payments = $subscriber->payments;
+        $payments = static::get_specific_payments_format($subscriber->payments()->select('day_number', 'cycle_number')->get());
+
+        return view('subscribers.show_payments_by_code', compact('payments', 'subscriber'));
     }
 }
