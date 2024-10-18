@@ -8,6 +8,7 @@ use App\Http\Controllers\TransactionController;
 Route::get('login', [AuthenticatedSessionController::class, 'showLoginPage'])->name('login');
 Route::post('login', [AuthenticatedSessionController::class, 'login']);
 Route::middleware('auth')->group(function () {
+    Route::get('saving_group/payments/{saving_group_id}', [SavingGroupController::class, 'getSavingGroupPayments'])->name('saving_group_payments');
     Route::resource('saving_groups',SavingGroupController::class);
     Route::get('transactions/{saving_group_id}',[TransactionController::class,'create'])->name('transactions.create');
     Route::get('transactions',[TransactionController::class,'index'])->name('transactions.index');

@@ -5,7 +5,7 @@
         <h1>المشتركين ل جمعية {{ $savingGroup->name }}</h1>
         
         <p><strong>عدد المشتركين:</strong> {{ $savingGroup->subscribers->count() }}</p>
-
+        <a href="{{ route('saving_group_payments',$savingGroup->id) }}" class="btn btn-primary" style="margin-bottom: 10px;">التحكم بدفعات هذا الدور</a>
         @if ($savingGroup->subscribers->isEmpty())
             <p>No subscribers found for this saving group.</p>
         @else

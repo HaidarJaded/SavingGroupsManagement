@@ -86,4 +86,23 @@ class SavingGroupController extends Controller
 
         return redirect()->route('saving_groups.index')->with('success', 'Saving Group deleted successfully');
     }
+
+    public function getSavingGroupPayments(int $saving_group_id)
+    {
+        $savingGroup = SavingGroup::with('subscribers.payments')->findOrFail($saving_group_id);
+        $startDate=\Carbon\Carbon::parse($savingGroup->start_date)->addDays($savingGroup->days_per_cycle*$savingGroup->current_cycle);
+        $subscribersData = $savingGroup->subscribers->map(function ($subscriber) use ($savingGroup) {
+            $payments = $subscriber->payments()
+                ->where('cycle_number', $savingGroup->current_cycle)
+                ->where('saving_group_id', $savingGroup->id)
+                ->pluck('day_number');
+    
+            return [
+                'subscriber' => $subscriber,
+                'payments' => $payments->toArray(), // Convert collection to array if needed
+            ];
+        });
+        return view('saving_groups.payments_in_current_cycle', compact('savingGroup', 'subscribersData','startDate'));
+    }
+    
 }
