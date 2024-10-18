@@ -15,6 +15,7 @@
                         <th>الاسم</th>
                         <th>الكنية</th>
                         <th>رقم الهاتف</th>
+                        <th>الكود</th>
                         <th></th>
                     </tr>
                 </thead>
@@ -24,6 +25,7 @@
                             <td>{{ $subscriber->name }}</td>
                             <td>{{ $subscriber->last_name }}</td>
                             <td>{{ $subscriber->phone }}</td>
+                            <td>{{ $subscriber->code }}</td>
                             <td><a href="{{ route('payments.subscriber', $subscriber->id) }}" class="btn btn-primary">عرض الدفعات</a></td>
                         </tr>
                     @endforeach
