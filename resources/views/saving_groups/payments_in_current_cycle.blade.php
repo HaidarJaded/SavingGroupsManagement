@@ -20,7 +20,7 @@
                         @if (in_array($j + 1, $data['payments']))
                             <td class="crossed-box">
                                 {{ \Carbon\Carbon::parse($startDate)
-                            ->addDays($j + 1)
+                            ->addDays($j)
                             ->format('Y-m-d') }}
                             </td>
                         @else
@@ -33,7 +33,7 @@
                                     <input type="hidden" name="cycle_number" value="{{ $savingGroup->current_cycle }}">
                                     <button type="button" class="btn btn-link" onclick="confirmPayment(this)">
                                         {{ \Carbon\Carbon::parse($startDate)
-                            ->addDays($j + 1)
+                            ->addDays($j)
                             ->format('Y-m-d') }}
                                     </button>
                                 </form>
