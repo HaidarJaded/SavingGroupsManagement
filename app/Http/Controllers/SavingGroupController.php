@@ -90,7 +90,7 @@ class SavingGroupController extends Controller
     public function getSavingGroupPayments(int $saving_group_id)
     {
         $savingGroup = SavingGroup::with('subscribers.payments')->findOrFail($saving_group_id);
-        $startDate=\Carbon\Carbon::parse($savingGroup->start_date)->addDays($savingGroup->days_per_cycle*$savingGroup->current_cycle);
+        $startDate = \Carbon\Carbon::parse($savingGroup->start_date)->addDays($savingGroup->days_per_cycle * ($savingGroup->current_cycle - 1));
         $subscribersData = $savingGroup->subscribers->map(function ($subscriber) use ($savingGroup) {
             $payments = $subscriber->payments()
                 ->where('cycle_number', $savingGroup->current_cycle)
