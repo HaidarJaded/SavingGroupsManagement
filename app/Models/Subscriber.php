@@ -18,6 +18,7 @@ class Subscriber extends Model
         'full_name',
         'phone',
         'rank',
+        'code',
         'saving_group_id',
     ];
     protected static function boot(): void
@@ -26,7 +27,17 @@ class Subscriber extends Model
         static::creating(static function ($subscriber) {
             // Make full name=name+' '+last_name in Model's triggers
             $subscriber->full_name = $subscriber->name . ' ' . $subscriber->last_name;
+            //Generate subscriber's code auto
+            $subscriber->code = SubscribersSavingGroups::generateUniqueCode();
         });
+    }
+    private static function generateUniqueCode(): string
+    {
+        $code = '';
+        do {
+            $code = str()->random(6);
+        } while (self::where('code', $code)->exists());
+        return $code;
     }
     public function saving_group(): BelongsTo
     {
