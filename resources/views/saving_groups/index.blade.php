@@ -40,15 +40,8 @@
                         <td>
 
 
-                            <!-- Button for other CRUD actions like edit/delete -->
-                            <!-- Example: -->
                             <a href="{{ route('saving_group_subscribers', $savingGroup->id) }}" class="btn btn-primary">عرض المشتركين</a>
                             <a href="{{ route('transactions.create', $savingGroup->id) }}" class="btn btn-primary">اضافة حوالة</a>
-                            <form action="{{ route('saving_groups.destroy', $savingGroup->id) }}" method="POST" style="display:inline-block;">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" class="btn btn-danger">حذف</button>
-                            </form>
                         </td>
                     </tr>
 
