@@ -28,17 +28,43 @@ class PaymentController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(CreatePaymentRequest $request)
+    public function store(Request $request)
     {
-        Payment::create([
-            'saving_group_id' => $request->saving_group_id,
-            'subscriber_id' => $request->subscriber_id,
-            'day_number' => $request->day_number,
-            'cycle_number' => $request->cycle_number,
-            'payment_date' => now(), 
-        ]);
+        $savingGroupId = $request->input('saving_group_id');
+        $subscriberId = $request->input('subscriber_id');
+        $dayNumber = $request->input('day_number');
+        $cycleNumber = $request->input('cycle_number');
+        $payAllUnpaid = $request->input('pay_all_unpaid', false);
 
-        return redirect()->back()->with('success', 'Payment added successfully');
+        if ($payAllUnpaid) {    
+            // Logic to add payments for all previous unpaid days up to the current day
+            for ($i = 1; $i <= $dayNumber; $i++) {
+                if (
+                    !Payment::where('saving_group_id', $savingGroupId)
+                        ->where('subscriber_id', $subscriberId)
+                        ->where('day_number', $i)
+                        ->where('cycle_number', $cycleNumber)
+                        ->exists()
+                ) {
+                    Payment::create([
+                        'saving_group_id' => $savingGroupId,
+                        'subscriber_id' => $subscriberId,
+                        'day_number' => $i,
+                        'cycle_number' => $cycleNumber,
+                    ]);
+                }
+            }
+        } else {
+            // Logic to add payment only for the selected day
+            Payment::create([
+                'saving_group_id' => $savingGroupId,
+                'subscriber_id' => $subscriberId,
+                'day_number' => $dayNumber,
+                'cycle_number' => $cycleNumber,
+            ]);
+        }
+
+        return redirect()->back()->with('success', 'Payment(s) recorded successfully.');
     }
 
     /**

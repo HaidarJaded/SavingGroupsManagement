@@ -31,7 +31,8 @@
                                     <input type="hidden" name="subscriber_id" value="{{ $data['subscriber']->id }}">
                                     <input type="hidden" name="day_number" value="{{ $j + 1 }}">
                                     <input type="hidden" name="cycle_number" value="{{ $savingGroup->current_cycle }}">
-                                    <button type="button" class="btn btn-link" onclick="confirmPayment(this)">
+                                    <button type="button" class="btn btn-link"
+                                        onclick="confirmPayment(this, {{ json_encode($data['payments']) }})">
                                         {{ \Carbon\Carbon::parse($startDate)
                             ->addDays($j)
                             ->format('Y-m-d') }}
@@ -46,13 +47,33 @@
     </table>
 </div>
 <script>
-    function confirmPayment(button) {
-        // Display the confirmation dialog
-        const confirmed = confirm("هل أنت متأكد من أنك تريد إضافة دفعة لهذا اليوم؟");
-        if (confirmed) {
-            // If confirmed, find the form and submit it
-            button.closest('form').submit();
+    function confirmPayment(button, previousPayments) {
+        const currentDay = parseInt(button.closest('form').querySelector('input[name="day_number"]').value);
+        let allPreviousPaid = true;
+
+        for (let i = 1; i < currentDay; i++) {
+            if (!previousPayments.includes(i)) {
+                allPreviousPaid = false;
+                break;
+            }
         }
+
+        if (allPreviousPaid) {
+            if (confirm(`هل تريد اضافة دفعة لليوم رقم ${currentDay}?`)) {
+                button.closest('form').submit();
+            }
+            return;
+        }
+        if (!confirm(`يوجد أيام قبل اليوم رقم  ${currentDay} غير مدفوعة هل تريد إضافة دفعات لها?`)) {
+            return;
+        }
+        const form = button.closest('form');
+        const input = document.createElement('input');
+        input.type = 'hidden';
+        input.name = 'pay_all_unpaid';
+        input.value = 'true';
+        form.appendChild(input);
+        form.submit();
     }
 </script>
 <style>
